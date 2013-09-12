@@ -32,4 +32,35 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
+
+    public $useDbConfig = 'default';
+    const HYPHEN = '_';
+
+    public function handleException($message) {
+        error_log($message);
+        throw new Exception($message);
+    }
+
+    public function createFieldValueArray(DataTransferObject $dto) {
+        $schema = $this->schema();
+        $modelColumns = array_keys($schema);
+        $columnValueMap = array();
+        foreach($modelColumns as $column) {
+            $propertyName = $this->convertDashesToCameCase($column);
+            if ( isset($dto->$propertyName) && strlen($dto->$propertyName) > 0)  {
+                $columnValueMap[$column] = $dto->$propertyName;
+            }
+        }
+        return $columnValueMap;
+    }
+
+    //Converts a string of type source_title to sourceTitle
+    private function convertDashesToCameCase($string) {
+        $parts = explode(self::HYPHEN, $string);
+        //ucfirst is the callback function applies to parts
+        $parts = array_map('ucfirst', $parts);
+        $outputString = lcfirst(implode('', $parts));
+        //error_log($string . ' - ' . $outputString);
+        return $outputString;
+    }
 }
