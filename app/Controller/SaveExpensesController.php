@@ -65,6 +65,7 @@ class SaveExpensesController extends AppController {
                 $expenseObject->vendor = $data[3];
                 $expenseObject->description = $data[4];
                 $expenseObject->amount = $data[5];
+                //print_r( (array)$expenseObject ) ;
                 array_push($expenseObjects, $expenseObject);
             }
         }
