@@ -34,9 +34,11 @@ class SaveExpensesController extends AppController {
                 $expenseId = $this->saveExpense($expense);
                 array_push($expenseIds, $expenseId);
             }
+            error_log(json_encode($expenseIds));
             $this->autoRender = false;
-            return json_encode($expenseIds);
+            $this->response->body(json_encode($expenseIds));
             } catch (Exception $e) {
+                error_log("Catching Exception 1 " . $e->getMessage());
                 $this->handleException($e);
             }
     }
@@ -44,6 +46,9 @@ class SaveExpensesController extends AppController {
     private function saveExpense(StdClass $expense) {
         $expenseDTO = new ExpenseDTO();
         $expenseDTO->updateExpenseDTOFromStdObject($expense);
+        if ( !isset($expenseDTO->amount) || $expenseDTO->amount == 0) {
+            throw new Exception("Amount can not be null or 0");
+        }
         $expenseId = $this->Expense->saveOrUpdate($expenseDTO);
         $this->Expense->create(false);
         return $expenseId;

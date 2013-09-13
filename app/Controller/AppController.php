@@ -35,7 +35,6 @@ class AppController extends Controller {
     public function handleException(Exception $e) {
         $this->autoRender = false;
         $this->response->statusCode(500);
-        error_log("error message: " . $e->getMessage());
-        return $e->getMessage();
+        $this->response->body("Error:" . $e->getMessage());
     }
 }

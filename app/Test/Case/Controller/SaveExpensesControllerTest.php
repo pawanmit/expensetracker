@@ -3,10 +3,12 @@
 App::uses('Controller', 'Controller');
 App::uses('AppController', 'Controller');
 
-class SaveExpensesControllerTest extends ControllerTestCase {
+class SaveExpensesControllerTest extends ControllerTestCase
+{
 
 
-    public function testSaveExpenseJson() {
+    public function testExpensesSaveWithCorrectNumberOfRows()
+    {
         $expectedNumberOfRowsInserted = 2;
         $expenseJson = '[
                             {
@@ -27,6 +29,57 @@ class SaveExpensesControllerTest extends ControllerTestCase {
                             }
                          ]';
 
+
+        $this->mockSaveExpenseController();
+        $this->testAction('/saveExpenses', array('data' => $expenseJson, 'method' => 'post'));
+        $response = $this->result;
+        debug($response);
+        $numberOfRowsInserted = count(explode(",", $response));
+        $this->assertEquals($expectedNumberOfRowsInserted, $numberOfRowsInserted);
+    }
+
+    public function testExpenseNotSavedIfAmountNotValid()
+    {
+        $expenseJson = '[
+                            {
+                                "date": "6/1/2013",
+                                "category": "Health",
+                                "subCategory": "Preventive Care",
+                                "vendor": "Walid",
+                                "description": ""
+                            }
+                         ]';
+
+        $this->mockSaveExpenseController();
+
+        $this->testAction('/saveExpenses', array('data' => $expenseJson, 'method' => 'post'));
+        $response = $this->result;
+        debug($response);
+        $this->saveExpenseShouldFail($response);
+    }
+
+    public function testExpenseNotSavedIfDateNotValid()
+    {
+        $expenseJson = '[
+                            {
+                                "date": "45454",
+                                "category": "Health",
+                                "subCategory": "Preventive Care",
+                                "vendor": "Walid",
+                                "description": "",
+                                "amount" : "333.43"
+                            }
+                         ]';
+
+        $this->mockSaveExpenseController();
+
+        $this->testAction('/saveExpenses', array('data' => $expenseJson, 'method' => 'post'));
+        $response = $this->result;
+        debug($response);
+        $this->saveExpenseShouldFail($response);
+    }
+
+    private function mockSaveExpenseController() {
         $this->generate('SaveExpenses', array(
             'methods' => array(
                 'saveExpense'
@@ -35,12 +88,11 @@ class SaveExpensesControllerTest extends ControllerTestCase {
                 'Expense' => array('saveOrUpdate')
             )
         ));
+    }
 
-        //error_log('JSON:' . $expenseJson);
-        $ids = $this->testAction('/saveExpenses', array('data' => $expenseJson, 'method' => 'post') );
-        debug($ids);
-        $numberOfRowsInserted = count(explode(",", $ids));
-        $this->assertEquals($expectedNumberOfRowsInserted, $numberOfRowsInserted);
+    private function saveExpenseShouldFail($response)
+    {
+        $this->assertContains('Error', $response);
     }
 
 }

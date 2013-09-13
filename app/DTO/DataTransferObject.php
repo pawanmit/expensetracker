@@ -16,6 +16,9 @@ class DataTransferObject {
     protected function setDateFields(StdClass $jsonObject) {
         foreach($this->dateFields as $dateField) {
             if ( isset($jsonObject->$dateField) && $this->isValidValue($jsonObject->$dateField) > 0 && property_exists($this, $dateField) ) {
+                if( !strtotime($jsonObject->$dateField) ){
+                    throw new Exception($jsonObject->$dateField . ' not valid date.');
+                }
                 $dateTime = DateTime::createFromFormat('m/d/Y', $jsonObject->$dateField);
                 $formattedDate = $dateTime->format('Y-m-d');
                 $this->$dateField = $formattedDate;
