@@ -6,7 +6,7 @@ class SaveExpensesController extends AppController {
 
     var $uses = array('Expense');
 
-    public function index() {
+    public function saveFile() {
         $this->view = '/ExpenseTracker/fileUpload';
         $file = '../Test/Client/daily_expenses.csv';
         $this->Expense->getCategories();
@@ -18,6 +18,35 @@ class SaveExpensesController extends AppController {
             //$this->Expense->create(false);
             //print_r('Expense saved with id ' . $expenseId . "<BR>");
         }
+    }
+
+    public function saveExpenses() {
+        try {
+            $expenseJson = $this->request->input();
+            //$file = '../Test/Client/daily_expenses.json';
+            //$expenseJson = file_get_contents($file);
+            $expenses = json_decode($expenseJson);
+            if (json_last_error() != 0) {
+                throw new Exception("Invalid Json.");
+            }
+            $expenseIds = array();
+            foreach($expenses as $expense) {
+                $expenseId = $this->saveExpense($expense);
+                array_push($expenseIds, $expenseId);
+            }
+            $this->autoRender = false;
+            return json_encode($expenseIds);
+            } catch (Exception $e) {
+                $this->handleException($e);
+            }
+    }
+
+    private function saveExpense(StdClass $expense) {
+        $expenseDTO = new ExpenseDTO();
+        $expenseDTO->updateExpenseDTOFromStdObject($expense);
+        $expenseId = $this->Expense->saveOrUpdate($expenseDTO);
+        $this->Expense->create(false);
+        return $expenseId;
     }
 
     private function getFileContents($file) {

@@ -32,6 +32,8 @@
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
+    Router::connect('/saveExpenses', array('controller' => 'saveExpenses', 'action' => 'saveExpenses', '[method]' => 'POST'));
+
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
