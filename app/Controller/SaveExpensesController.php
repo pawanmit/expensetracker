@@ -2,19 +2,21 @@
 
 require_once '../DTO/ExpenseDTO.php';
 
-class FileUploadController extends AppController {
+class SaveExpensesController extends AppController {
 
     var $uses = array('Expense');
 
     public function index() {
         $this->view = '/ExpenseTracker/fileUpload';
         $file = '../Test/Client/daily_expenses.csv';
+        $this->Expense->getCategories();
         $expenseObjects = $this->getFileContents($file);
         foreach($expenseObjects as $expenseObject) {
             $expenseDTO = new ExpenseDTO();
             $expenseDTO->updateExpenseDTOFromStdObject($expenseObject);
-            $expenseId = $this->Expense->saveOrUpdate($expenseDTO);
-            print_r('Expense saved with id ' . $expenseId . "<BR>");
+            //$expenseId = $this->Expense->saveOrUpdate($expenseDTO);
+            //$this->Expense->create(false);
+            //print_r('Expense saved with id ' . $expenseId . "<BR>");
         }
     }
 

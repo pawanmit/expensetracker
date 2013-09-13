@@ -9,11 +9,18 @@ class Expense extends AppModel {
         try {
             $fieldValueArray = $this->createFieldValueArray($expenseDTO);
             AppModel::set($fieldValueArray);
+            //print_r($fieldValueArray);
             AppModel::save();
             return $this->id;
         } catch (Exception $e){
             throw new Exception ('Error saving CmsDocument with id ' . $expenseDTO->id );
         }
+
+        }
+
+    public function getCategories() {
+        $results = AppModel::find('all', array('fields' => array('DISTINCT category')));
+        print_r($results);
     }
 
 }

@@ -38,7 +38,8 @@ class DataTransferObject {
     public function setNumericFields(StdClass $jsonObject) {
         foreach( $this->numericFields as $numericField ) {
             if ( isset($jsonObject->$numericField)  && property_exists($this, $numericField)) {
-                $this->$numericField = $jsonObject->$numericField;
+                $value = str_replace('$', '', $jsonObject->$numericField);
+                $this->$numericField = $value;
             }
         }
     }
