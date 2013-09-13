@@ -14,9 +14,9 @@ class SaveExpensesController extends AppController {
         foreach($expenseObjects as $expenseObject) {
             $expenseDTO = new ExpenseDTO();
             $expenseDTO->updateExpenseDTOFromStdObject($expenseObject);
-            //$expenseId = $this->Expense->saveOrUpdate($expenseDTO);
-            //$this->Expense->create(false);
-            //print_r('Expense saved with id ' . $expenseId . "<BR>");
+            $expenseId = $this->Expense->saveOrUpdate($expenseDTO);
+            $this->Expense->create(false);
+            print_r('Expense saved with id ' . $expenseId . "<BR>");
         }
     }
 

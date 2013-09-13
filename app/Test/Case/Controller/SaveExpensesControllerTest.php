@@ -30,7 +30,7 @@ class SaveExpensesControllerTest extends ControllerTestCase
 
 
         $this->mockSaveExpenseController();
-        $this->testAction('/saveExpenses/eree', array('data' => $expenseJson, 'method' => 'post'));
+        $this->testAction('/saveExpenses', array('data' => $expenseJson, 'method' => 'post'));
         $response = $this->result;
         debug($response);
         $numberOfRowsInserted = count(explode(",", $response));

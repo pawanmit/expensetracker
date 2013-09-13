@@ -10,13 +10,18 @@ class DisplayExpensesControllerTest  extends ControllerTestCase {
 
     }
 
-    public function testSummaryByCatAndMonthOnlyAcceptsValidYear() {
+    public function testGetExpensesByCategoryAndMonthAcceptsOnlyValidYear() {
         //$this->mockDisplayExpensesController();
         $this->testAction('/getExpenseSummary/jhjh', array('method' => 'get'));
         $response = $this->result;
         debug($response);
         $this->getExpenseShouldFail($response);
     }
+
+    public function testgetExpensesByCategoryAndMonthReturnCorrectNumberOfRows() {
+
+    }
+
 
     private function getExpenseShouldFail($response)
     {

@@ -46,7 +46,7 @@ class AppModel extends Model {
         $modelColumns = array_keys($schema);
         $columnValueMap = array();
         foreach($modelColumns as $column) {
-            $propertyName = $this->convertDashesToCameCase($column);
+            $propertyName = $this->convertHyphenToCameCase($column);
             if ( isset($dto->$propertyName) && strlen($dto->$propertyName) > 0)  {
                 $columnValueMap[$column] = $dto->$propertyName;
             }
@@ -54,8 +54,18 @@ class AppModel extends Model {
         return $columnValueMap;
     }
 
+    public function createDTOFromResult($dto, $result) {
+        $schema = $this->schema();
+        $modelColumns = array_keys($schema);
+        foreach($modelColumns as $column) {
+            $propertyName = $this->convertHyphenToCameCase($column);
+            $dto->$propertyName = $result[$column];
+        }
+        return $dto;
+    }
+
     //Converts a string of type source_title to sourceTitle
-    private function convertDashesToCameCase($string) {
+    private function convertHyphenToCameCase($string) {
         $parts = explode(self::HYPHEN, $string);
         //ucfirst is the callback function applies to parts
         $parts = array_map('ucfirst', $parts);
