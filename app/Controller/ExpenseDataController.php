@@ -1,6 +1,6 @@
 <?php
 
-class DisplayExpensesController extends AppController {
+class ExpenseDataController extends AppController {
 
     var $uses = array('Expense');
 

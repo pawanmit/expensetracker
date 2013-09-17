@@ -34,7 +34,9 @@
 
     Router::connect('/saveExpenses', array('controller' => 'saveExpenses', 'action' => 'saveExpenses', '[method]' => 'POST'));
 
-    Router::connect('/getExpenses/:year', array('controller' => 'displayExpenses', 'action' => 'getExpensesByYear', '[method]' => 'GET'));
+    Router::connect('/getExpenses/:year', array('controller' => 'expenseData', 'action' => 'getExpensesByYear', '[method]' => 'GET'));
+
+    Router::connect('/summary', array('controller' => 'expenses', 'action' => 'summary', '[method]' => 'GET'));
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on

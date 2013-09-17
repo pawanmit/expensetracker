@@ -3,7 +3,7 @@
 App::uses('AppController', 'Controller');
 App::uses('Expense', 'Model');
 
-class DisplayExpensesControllerTest  extends ControllerTestCase {
+class ExpenseDataControllerTest  extends ControllerTestCase {
     public $fixtures = array('app.expense');
     //public $dropTables = false;
 
@@ -43,7 +43,7 @@ class DisplayExpensesControllerTest  extends ControllerTestCase {
     }
 
     private function mockDisplayExpensesController() {
-        $this->generate('DisplayExpenses', array(
+        $this->generate('ExpenseData', array(
             'methods' => array(
                 'getExpensesByYear'
             )
