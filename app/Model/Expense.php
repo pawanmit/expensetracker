@@ -31,7 +31,7 @@ class Expense extends AppModel {
 
     public function getCategories() {
         $results = AppModel::find('all', array('fields' => array('DISTINCT category')));
-        print_r($results);
+        //print_r($results);
     }
 
 }
