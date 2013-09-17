@@ -2,6 +2,8 @@
 
 class DataTransferObject {
 
+    const HYPHEN = '_';
+
     protected function setTextFields(StdClass $jsonObject) {
         foreach($this->textFields as $textField) {
             if ( isset($jsonObject->$textField) && $this->isValidValue($jsonObject->$textField) > 0 && property_exists($this, $textField)) {
@@ -47,6 +49,28 @@ class DataTransferObject {
         }
     }
 
+
+    public function createFieldValueArray($modelSchema) {
+        $modelColumns = array_keys($modelSchema);
+        $columnValueMap = array();
+        foreach($modelColumns as $column) {
+            $propertyName = $this->convertHyphenToCameCase($column);
+            if ( isset($this->$propertyName) && strlen($this->$propertyName) > 0)  {
+                $columnValueMap[$column] = $this->$propertyName;
+            }
+        }
+        return $columnValueMap;
+    }
+
+    //Converts a string of type source_title to sourceTitle
+    private function convertHyphenToCameCase($string) {
+        $parts = explode(self::HYPHEN, $string);
+        //ucfirst is the callback function applies to parts
+        $parts = array_map('ucfirst', $parts);
+        $outputString = lcfirst(implode('', $parts));
+        //error_log($string . ' - ' . $outputString);
+        return $outputString;
+    }
 
     protected function isValidValue($value) {
         if ( isset($value) && strlen(trim($value)) > 0 ) {

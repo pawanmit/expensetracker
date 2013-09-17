@@ -7,7 +7,6 @@ class ExpenseDataController extends AppController {
     public function getExpensesByYear() {
         try {
             $year = $this->request->params['year'];
-            error_log("Year:" . $year);
             if (strlen($year) <> 4 || (!is_numeric($year))) {
                 throw new Exception("Invalid Year in params");
             }
@@ -27,7 +26,6 @@ class ExpenseDataController extends AppController {
         $toDate = $dateRange->toDate;
         $expenses = $this->Expense->findExpensesByDateRange($fromDate, $toDate);
         return json_encode($expenses);
-
     }
 
     private function getData($year) {

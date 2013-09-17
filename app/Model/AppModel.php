@@ -41,19 +41,6 @@ class AppModel extends Model {
         throw new Exception($message);
     }
 
-    public function createFieldValueArray(DataTransferObject $dto) {
-        $schema = $this->schema();
-        $modelColumns = array_keys($schema);
-        $columnValueMap = array();
-        foreach($modelColumns as $column) {
-            $propertyName = $this->convertHyphenToCameCase($column);
-            if ( isset($dto->$propertyName) && strlen($dto->$propertyName) > 0)  {
-                $columnValueMap[$column] = $dto->$propertyName;
-            }
-        }
-        return $columnValueMap;
-    }
-
     public function createDTOFromResult($dto, $result) {
         $schema = $this->schema();
         $modelColumns = array_keys($schema);

@@ -2,9 +2,9 @@
 
 App::uses('AppController', 'Controller');
 
-class SaveExpensesControllerTest extends ControllerTestCase
-{
+class SaveExpensesControllerTest extends ControllerTestCase {
 
+    public $fixtures = array('app.expense');
 
     public function testExpensesSaveWithCorrectNumberOfRows()
     {
@@ -22,14 +22,14 @@ class SaveExpensesControllerTest extends ControllerTestCase
                                 "date": "6/1/2013",
                                 "category": "Health",
                                 "subCategory": "Preventive Care",
-                                "vendor": "Walid",
+                                "vendor": "Pawan",
                                 "description": "",
                                 "amount": "$105.00"
                             }
                          ]';
 
 
-        $this->mockSaveExpenseController();
+        //$this->mockSaveExpenseController();
         $this->testAction('/saveExpenses', array('data' => $expenseJson, 'method' => 'post'));
         $response = $this->result;
         debug($response);

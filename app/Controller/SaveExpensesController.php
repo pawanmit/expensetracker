@@ -9,14 +9,9 @@ class SaveExpensesController extends AppController {
     public function saveFile() {
         $this->view = '/ExpenseTracker/fileUpload';
         $file = '../Test/Client/daily_expenses.csv';
-        $this->Expense->getCategories();
         $expenseObjects = $this->getFileContents($file);
-        foreach($expenseObjects as $expenseObject) {
-            $expenseDTO = new ExpenseDTO();
-            $expenseDTO->updateExpenseDTOFromStdObject($expenseObject);
-            $expenseId = $this->Expense->saveOrUpdate($expenseDTO);
-            $this->Expense->create(false);
-            print_r('Expense saved with id ' . $expenseId . "<BR>");
+        foreach($expenseObjects as $expense) {
+            $expenseId = $this->saveExpense($expense);
         }
     }
 
@@ -34,7 +29,6 @@ class SaveExpensesController extends AppController {
                 $expenseId = $this->saveExpense($expense);
                 array_push($expenseIds, $expenseId);
             }
-            error_log(json_encode($expenseIds));
             $this->autoRender = false;
             $this->response->body(json_encode($expenseIds));
             } catch (Exception $e) {
@@ -46,12 +40,9 @@ class SaveExpensesController extends AppController {
     private function saveExpense(StdClass $expense) {
         $expenseDTO = new ExpenseDTO();
         $expenseDTO->updateExpenseDTOFromStdObject($expense);
-        if ( !isset($expenseDTO->amount) || $expenseDTO->amount == 0) {
-            throw new Exception("Amount can not be null or 0");
-        }
-        $expenseId = $this->Expense->saveOrUpdate($expenseDTO);
-        $this->Expense->create(false);
-        return $expenseId;
+        $expenseId = $expenseDTO->saveOrUpdate();
+        //$this->Expense->create(false);
+        print_r('Expense saved with id ' . $expenseId . "<BR>");
     }
 
     private function getFileContents($file) {

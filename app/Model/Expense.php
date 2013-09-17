@@ -5,9 +5,8 @@ class Expense extends AppModel {
 
     public $useTable = 'expense';
 
-    public function saveOrUpdate(ExpenseDTO $expenseDTO) {
+    public function saveOrUpdate($fieldValueArray) {
         try {
-            $fieldValueArray = $this->createFieldValueArray($expenseDTO);
             AppModel::set($fieldValueArray);
             //print_r($fieldValueArray);
             AppModel::save();
