@@ -47,4 +47,9 @@ class ExpenseDTO extends DataTransferObject {
         $result = $this->model->findUsingConditions($conditions);
         return $result;
     }
+
+    public function findUsingQuery($query) {
+        $result = $this->model->query($query);
+        return $result;
+    }
 }
