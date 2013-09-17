@@ -1,8 +1,15 @@
 <?php
 
+require_once '../Service/ExpenseService.php';
+
 class ExpenseDataController extends AppController {
 
-    var $uses = array('Expense');
+    //var $uses = array('Expense');
+    private $expenseService;
+
+    public function  beforeFilter() {
+        $this->expenseService = new ExpenseService();
+    }
 
     public function getExpensesByYear() {
         try {
@@ -10,7 +17,7 @@ class ExpenseDataController extends AppController {
             if (strlen($year) <> 4 || (!is_numeric($year))) {
                 throw new Exception("Invalid Year in params");
             }
-            $expeneses = $this->getData($year);
+            $expeneses = $this->expenseService->getExpensesByYear($year);
             $this->response->body(json_encode($expeneses));
             $this->autoRender = false;
         }catch (Exception $e) {

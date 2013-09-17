@@ -34,30 +34,9 @@ App::uses('Model', 'Model');
 class AppModel extends Model {
 
     public $useDbConfig = 'default';
-    const HYPHEN = '_';
 
     public function handleException($message) {
         error_log($message);
         throw new Exception($message);
-    }
-
-    public function createDTOFromResult($dto, $result) {
-        $schema = $this->schema();
-        $modelColumns = array_keys($schema);
-        foreach($modelColumns as $column) {
-            $propertyName = $this->convertHyphenToCameCase($column);
-            $dto->$propertyName = $result[$column];
-        }
-        return $dto;
-    }
-
-    //Converts a string of type source_title to sourceTitle
-    private function convertHyphenToCameCase($string) {
-        $parts = explode(self::HYPHEN, $string);
-        //ucfirst is the callback function applies to parts
-        $parts = array_map('ucfirst', $parts);
-        $outputString = lcfirst(implode('', $parts));
-        //error_log($string . ' - ' . $outputString);
-        return $outputString;
     }
 }

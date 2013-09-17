@@ -4,6 +4,8 @@ class DataTransferObject {
 
     const HYPHEN = '_';
 
+    protected $model;
+
     protected function setTextFields(StdClass $jsonObject) {
         foreach($this->textFields as $textField) {
             if ( isset($jsonObject->$textField) && $this->isValidValue($jsonObject->$textField) > 0 && property_exists($this, $textField)) {
@@ -40,7 +42,7 @@ class DataTransferObject {
         }
     }
 
-    public function setNumericFields(StdClass $jsonObject) {
+    protected function setNumericFields(StdClass $jsonObject) {
         foreach( $this->numericFields as $numericField ) {
             if ( isset($jsonObject->$numericField)  && property_exists($this, $numericField)) {
                 $value = str_replace('$', '', $jsonObject->$numericField);
@@ -50,7 +52,8 @@ class DataTransferObject {
     }
 
 
-    public function createFieldValueArray($modelSchema) {
+    protected  function createFieldValueArray() {
+        $modelSchema = $this->model->schema();
         $modelColumns = array_keys($modelSchema);
         $columnValueMap = array();
         foreach($modelColumns as $column) {
@@ -63,7 +66,7 @@ class DataTransferObject {
     }
 
     //Converts a string of type source_title to sourceTitle
-    private function convertHyphenToCameCase($string) {
+    protected function convertHyphenToCameCase($string) {
         $parts = explode(self::HYPHEN, $string);
         //ucfirst is the callback function applies to parts
         $parts = array_map('ucfirst', $parts);

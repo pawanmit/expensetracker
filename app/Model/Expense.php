@@ -12,20 +12,14 @@ class Expense extends AppModel {
             AppModel::save();
             return $this->id;
         } catch (Exception $e){
-            throw new Exception ('Error saving Expense with id ' . $expenseDTO->id );
+            throw new Exception ('Error saving Expense' );
         }
      }
 
-    public function findExpensesByDateRange($fromDate, $toDate) {
-        error_log('Searching for Expense between ' . $fromDate . ' and ' . $toDate);
-        $results = AppModel::find('all', array('conditions' => array('date BETWEEN ? AND ?' => array($fromDate,$toDate)) ));
-        $expenses = array();
-        foreach($results as $result) {
-            $expense = new ExpenseDTO();
-            $expense = $this->createDTOFromResult($expense, $result['Expense']);
-            array_push($expenses, $expense);
-        }
-        return $expenses;
+    public function findUsingConditions($conditions) {
+        $results = AppModel::find('all', array('conditions' => $conditions ));
+        //print_r($results);
+        return $results;
     }
 
     public function getCategories() {

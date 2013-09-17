@@ -15,10 +15,8 @@ class ExpenseDTO extends DataTransferObject {
     public $dateFields = array('date');
     public $numericFields = array('amount');
 
-    private $expense;
-
     function  __construct() {
-        $this->expense = ClassRegistry::init('Expense');
+        $this->model = ClassRegistry::init('Expense');
     }
 
     public function updateExpenseDTOFromStdObject($expenseObject) {
@@ -30,9 +28,23 @@ class ExpenseDTO extends DataTransferObject {
         }
     }
 
+    public function updateDTOFromResult($resultArray) {
+        $modelSchema = $this->model->schema();
+        $modelColumns = array_keys($modelSchema);
+        foreach($modelColumns as $column) {
+            $propertyName = $this->convertHyphenToCameCase($column);
+            $this->$propertyName = $resultArray[$column];
+        }
+    }
+
     public function saveOrUpdate() {
-        $fieldValueArray = $this->createFieldValueArray($this->expense->schema());
-        $this->expense->save($fieldValueArray);
-        $this->expense->create(false);
+        $fieldValueArray = $this->createFieldValueArray();
+        $this->model->save($fieldValueArray);
+        $this->model->create(false);
+    }
+
+    public function findUsingConditions($conditions) {
+        $result = $this->model->findUsingConditions($conditions);
+        return $result;
     }
 }
