@@ -25,6 +25,11 @@ class ExpenseDataController extends AppController {
         }
     }
 
+    public function getExpenseSummary() {
+        $summary = $this->expenseService->getExpenseSummary();
+        $this->response->body(json_encode($summary));
+        $this->autoRender = false;
+    }
 
     public function getExpensesInDateRange() {
         $datesJson = $this->request->input();
