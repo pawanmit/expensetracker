@@ -15,7 +15,8 @@ class ExpenseFixture extends CakeTestFixture {
             array('date' => '2012-12-31', 'category' => 'Food', 'sub_category'=>'Restaurants', 'vendor' => 'Wired Cafe', 'description' => 'Breakfast', 'amount' => '3.00'),
             array('date' => '2013-06-01', 'category' => 'Food', 'sub_category'=>'Restaurants', 'vendor' => 'Wired Cafe', 'description' => 'Breakfast', 'amount' => '3.00'),
             array('date' => '2013-06-03', 'category' => 'Food', 'sub_category'=>'Groceries', 'vendor' => 'Wholefoods', 'description' => '', 'amount' => '23.03'),
-            array('date' => '2013-06-01', 'category' => 'Health', 'sub_category' => 'Preventive Care', 'vendor' => 'Walid', 'description' =>'',  'amount' => '105.00')
+            array('date' => '2013-06-01', 'category' => 'Health', 'sub_category' => 'Preventive Care', 'vendor' => 'Walid', 'description' =>'',  'amount' => '105.00'),
+            array('date' => '2013-06-01', 'category' => 'Health', 'sub_category' => 'Eye', 'vendor' => 'Optometric Images', 'description' =>'',  'amount' => '45.00')
             /*     array('date' => '2013-6-1' , 'category' => 'Food', 'sub_category' => 'Groceries', 'vendor' => 'Farmers Market', 'description' =>'',  'amount' => '40.00'),
                  array('date' => '2013-6-9', 'category' => 'Shopping', 'sub_category' => 'Clothes', 'vendor' => 'Target', 'description' => 'Credit card bill', 'amount' => '27.00'),
                  array('date' => '2013-6-15', 'category' => 'Food', 'sub_category' => 'Restaurants', 'vendor' => 'McDonalds', 'description' =>'',  'amount' => '6.00' ),
