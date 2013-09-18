@@ -40,7 +40,7 @@ class ExpenseService {
             'group' => array('yearAndMonth', 'category'), //fields to GROUP BY
         );
         $virtualFields = array(
-            'yearAndMonth' => "date",
+            'yearAndMonth' => "CONCAT(year(date) , '-', month(date))",
             'total' => 'SUM(amount)'
         );
         $resultSet = $this->summaryDTO->findUsingConditionsAndVirtualFields($conditions, $virtualFields);
