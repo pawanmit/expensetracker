@@ -28,14 +28,16 @@ class ExpenseDTO extends DataTransferObject {
         }
     }
 
-    public function updateDTOFromResult($resultArray) {
+    public function createStdObjectFromResult($resultArray) {
+        $expense = new StdClass();
         $modelSchema = $this->model->schema();
         $modelColumns = array_keys($modelSchema);
         foreach($modelColumns as $column) {
             $propertyName = $this->convertHyphenToCameCase($column);
-            $this->$propertyName = $resultArray[$column];
+            $expense->$propertyName = $resultArray[$column];
         }
-    }
+        return $expense;
+     }
 
     public function saveOrUpdate() {
         $fieldValueArray = $this->createFieldValueArray();

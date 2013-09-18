@@ -1,13 +1,16 @@
 <?php
 
 require_once '../DTO/ExpenseDTO.php';
+require_once '../DTO/SummaryDTO.php';
 
 class ExpenseService {
 
     private $expenseDTO;
+    private $summaryDTO;
 
     function  __construct() {
         $this->expenseDTO = new ExpenseDTO();
+        $this->summaryDTO = new SummaryDTO();
     }
 
     public function getExpensesByYear($year) {
@@ -20,13 +23,30 @@ class ExpenseService {
         $conditions = array('date BETWEEN ? AND ?' => array($fromDate,$toDate));
         $resultSet = $this->expenseDTO->findUsingConditions($conditions);
         $expenses = array();
+        //print_r($resultSet);
         if(count($resultSet) > 0 ) {
             foreach($resultSet as $entry) {
-                $this->expenseDTO->updateDTOFromResult($entry['Expense']);
-                array_push($expenses, $this->expenseDTO);
+                $expense = $this->expenseDTO->createStdObjectFromResult($entry['Expense']);
+                array_push($expenses, $expense);
             }
         }
         return $expenses;
     }
 
+    public function getExpenseSummary() {
+        $conditions = array(
+            'fields' => array('yearAndMonth', 'category', 'total'), //array of field names
+            'order' => array('yearAndMonth'), //string or array defining order
+            'group' => array('yearAndMonth', 'category'), //fields to GROUP BY
+        );
+        $resultSet = $this->summaryDTO->findUsingConditions($conditions);
+        $expenseSummary = array();
+        if (count($resultSet) > 0) {
+            foreach($resultSet as $result) {
+                $summary = $this->summaryDTO->createStdObjectFromResult($result['Expense']);
+                array_push($expenseSummary, $summary);
+            }
+        }
+        return $expenseSummary;
+    }
 }
