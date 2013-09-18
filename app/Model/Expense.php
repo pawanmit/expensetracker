@@ -8,7 +8,6 @@ class Expense extends AppModel {
     public function saveOrUpdate($fieldValueArray) {
         try {
             AppModel::set($fieldValueArray);
-            //print_r($fieldValueArray);
             AppModel::save();
             return $this->id;
         } catch (Exception $e){
@@ -25,6 +24,10 @@ class Expense extends AppModel {
     public function getCategories() {
         $results = AppModel::find('all', array('fields' => array('DISTINCT category')));
         //print_r($results);
+    }
+
+    public function beforeFind($query) {
+        //print_r($query);
     }
 
 }

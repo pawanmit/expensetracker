@@ -39,7 +39,11 @@ class ExpenseService {
             'order' => array('yearAndMonth'), //string or array defining order
             'group' => array('yearAndMonth', 'category'), //fields to GROUP BY
         );
-        $resultSet = $this->summaryDTO->findUsingConditions($conditions);
+        $virtualFields = array(
+            'yearAndMonth' => "date",
+            'total' => 'SUM(amount)'
+        );
+        $resultSet = $this->summaryDTO->findUsingConditionsAndVirtualFields($conditions, $virtualFields);
         $expenseSummary = array();
         if (count($resultSet) > 0) {
             foreach($resultSet as $result) {

@@ -4,10 +4,6 @@ class SummaryDTO extends DataTransferObject {
 
     function  __construct() {
         $this->model = ClassRegistry::init('Expense');
-//        $this->model->virtualFields = array(
-//            'yearAndMonth' => "CONCAT( year(date), '-', month(date) )",
-//            'total' => 'SUM(amount)'
-//        );
     }
 
     public $yearAndMonth;
@@ -20,6 +16,12 @@ class SummaryDTO extends DataTransferObject {
         $summary->category = $result['category'];
         $summary->total = $result['total'];
         return $summary;
+    }
+
+    public function findUsingConditionsAndVirtualFields($conditions, $virtualFields) {
+        $this->model->virtualFields = $virtualFields;
+        $result = $this->model->find('all', $conditions);
+        return $result;
     }
 
 }
