@@ -38,6 +38,8 @@
 
     Router::connect('/summary', array('controller' => 'expenseView', 'action' => 'summary', '[method]' => 'GET'));
 
+    Router::connect('/getSummary', array('controller' => 'expenseData', 'action' => 'getExpenseSummary', '[method]' => 'GET'));
+
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
