@@ -5,7 +5,8 @@ App::uses('Expense', 'Model');
 
 class ExpenseDataControllerTest  extends ControllerTestCase {
     public $fixtures = array('app.expense');
-    //public $dropTables = false;
+
+    public $dropTables = false;
 
 
        public function testExpenseTotalOfCategoryByMonth() {
@@ -32,6 +33,17 @@ class ExpenseDataControllerTest  extends ControllerTestCase {
 
     }
 
+    public function testGetExpenseSummaryReturnsCorrectTotalByCategoryAndMonth() {
+        $this->testAction('/getSummary', array('method' => 'get'));
+        $response = $this->result;
+        $summary = json_decode($response);
+        debug($summary);
+        foreach ($summary as $entry) {
+            if ($entry->yearAndMonth == '2013-6' && $entry->category == 'Health') {
+                //$this->getExpensesShouldPass('110.00', $entry->total );
+            }
+        }
+    }
 
     private function getExpenseShouldFail($response)
     {
