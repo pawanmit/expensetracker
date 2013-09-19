@@ -11,6 +11,9 @@ class ExpenseDataController extends AppController {
         $this->expenseService = new ExpenseService();
     }
 
+    /*
+     * Maps /getExpenses/:year
+     */
     public function getExpensesByYear() {
         try {
             $year = $this->request->params['year'];
@@ -25,27 +28,34 @@ class ExpenseDataController extends AppController {
         }
     }
 
+    /*
+     * Maps end point /getSummary
+     */
     public function getExpenseSummary() {
         $summary = $this->expenseService->getExpenseSummary();
         $this->response->body(json_encode($summary));
         $this->autoRender = false;
     }
 
-    public function getExpensesInDateRange() {
-        $datesJson = $this->request->input();
-        $dateRange = json_decode($datesJson);
-        $fromDate = $dateRange->fromDate;
-        $toDate = $dateRange->toDate;
-        $expenses = $this->Expense->findExpensesByDateRange($fromDate, $toDate);
-        return json_encode($expenses);
+    public function getExpensesByCategoryAndMonth() {
+        try {
+            $yyyymm = $this->request->params['yyyymm'];
+            $fromDate = $yyyymm . '-01';
+            $toDate = $yyyymm . '-31';
+            $category = $this->request->params['category'];
+            $expenses = $this->expenseService->getExpenseByDateRange($fromDate, $toDate);
+            $expenseByCat = array();
+            foreach($expenses as $expense) {
+                if($expense->category == $category) {
+                    array_push($expenseByCat, $expense);
+                }
+            }
+            $this->response->body(json_encode($expenseByCat));
+            $this->autoRender = false;
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
     }
 
-    private function getData($year) {
-        $fromDate = $year.'-01-01';
-        $toDate = $year.'-12-31';
-        $expenses = $this->Expense->findExpensesByDateRange($fromDate, $toDate);
-        //print_r($expenses);
-        return $expenses;
-    }
 }
 

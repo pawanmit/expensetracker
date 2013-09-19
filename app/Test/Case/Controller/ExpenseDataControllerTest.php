@@ -33,14 +33,24 @@ class ExpenseDataControllerTest  extends ControllerTestCase {
 
     }
 
-    public function testGetExpenseSummaryReturnsCorrectTotalByCategoryAndMonth() {
+    public function testGetExpensesByMonthAndCategoryReturnsCorrectNumberOfRows() {
+        $this->testAction('/getExpenses/2013-6/Food', array('method' => 'get'));
+        $response = $this->result;
+        $expenses = json_decode($response);
+        debug(count($expenses));
+        $expectedNumRows = 2;
+        $actualRowsReturned = count($expenses);
+        $this->getExpensesShouldPass($expectedNumRows, $actualRowsReturned);
+    }
+
+    public function testGetExpenseSummaryReturnsCorrectTotal() {
         $this->testAction('/getSummary', array('method' => 'get'));
         $response = $this->result;
         $summary = json_decode($response);
-        debug($summary);
+        //debug($summary);
         foreach ($summary as $entry) {
             if ($entry->yearAndMonth == '2013-6' && $entry->category == 'Health') {
-                //$this->getExpensesShouldPass('110.00', $entry->total );
+                $this->getExpensesShouldPass('150.00', $entry->total );
             }
         }
     }
