@@ -37,6 +37,20 @@ class ExpenseDataController extends AppController {
         $this->autoRender = false;
     }
 
+    public function getExpenseSummaryForCategoryByDate() {
+        try {
+            $yyyymm = $this->request->params['yyyymm'];
+            $fromDate = $yyyymm . '-01';
+            $toDate = $yyyymm . '-31';
+            $category = $this->request->params['category'];
+            $expenseSummaryBySubcat = $this->expenseService->getExpenseSummaryForCategoryByDate($category, $fromDate, $toDate);
+            $this->response->body(json_encode($expenseSummaryBySubcat));
+            $this->autoRender = false;
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
     public function getExpensesByCategoryAndMonth() {
         try {
             $yyyymm = $this->request->params['yyyymm'];

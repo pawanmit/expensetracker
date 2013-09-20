@@ -37,6 +37,9 @@
     Router::connect('/getExpenses/:year', array('controller' => 'expenseData', 'action' => 'getExpensesByYear', '[method]' => 'GET'));
 
     Router::connect('/getExpenses/:yyyymm/:category', array('controller' => 'expenseData', 'action' => 'getExpensesByCategoryAndMonth', '[method]' => 'GET'));
+    Router::connect('/getExpenses/:category/:yyyymm', array('controller' => 'expenseData', 'action' => 'getExpensesByCategoryAndMonth', '[method]' => 'GET'));
+
+    Router::connect('/getExpenseSummaryForCategoryByDate/:category/:yyyymm', array('controller' => 'expenseData', 'action' => 'getExpenseSummaryForCategoryByDate', '[method]' => 'GET'));
 
     Router::connect('/summary', array('controller' => 'expenseView', 'action' => 'summary', '[method]' => 'GET'));
 

@@ -53,55 +53,8 @@
 
 <footer>
     <script type="text/javascript" src="http://www.resumescanner.net/static/scripts/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
-
-    <script type="text/javascript">
-
-        var baseUrl = "http://localhost/expensetracker"
-        //jQuery.ajaxSettings.traditional = true;
-
-        function getSummary() {
-            var data = {
-            }
-            var returndata = {}
-
-            jQuery.ajax({
-                async: false,
-                type: 'GET',
-                cache: false,
-                dataType: 'json',
-                url: baseUrl + '/getSummary',
-                data: data,
-                success: function(data){
-                    returndata = data;
-                },
-                error: function(data){
-                    returndata = "error";
-                }
-            });
-            return returndata;
-        }
-
-        function loadSummary() {
-            var summaryJson = getSummary();
-            //jQuery("#summary").append(summaryJson);
-            jQuery.each(summaryJson, function(i, item) {
-                jQuery("#summaryTable").append('<div id="row-' + i + '" class="summary-row" />');
-                jQuery("#row-"+i).append("<span class='date'>" + item.yearAndMonth + "</span>");
-                jQuery("#row-"+i).append("<span class='category'>" + item.category + "</span>");
-                jQuery("#row-"+i).append("<span class='total'>" + item.total + "</span>");
-                //jQuery("#summary").append(i + "\n");
-                //console.log('<div id="row-' + i + '" class="summary-row" />');
-
-            });
-            //alert(summaryJson);
-        }
-        jQuery(document).ready(function() {
-            loadSummary();
-            jQuery("#summaryTable").tablesorter();
-        });
-    </script>
-
+    <script type="text/javascript" src="js/rest.js"></script>
+    <script type="text/javascript" src="js/view.js"></script>
 </footer>
 </body>
 

@@ -6,15 +6,20 @@ class SummaryDTO extends DataTransferObject {
         $this->model = ClassRegistry::init('Expense');
     }
 
-    public $yearAndMonth;
-    public $category;
-    public $total;
-
     public function createStdObjectFromResult($result) {
         $summary = new StdClass();
-        $summary->yearAndMonth = $result['yearAndMonth'];
-        $summary->category = $result['category'];
-        $summary->total = $result['total'];
+        if (isset($result['yearAndMonth'])) {
+            $summary->yearAndMonth = $result['yearAndMonth'];
+        }
+        if (isset($result['category'])) {
+            $summary->category = $result['category'];
+        }
+        if (isset($result['sub_category'])) {
+            $summary->subCategory = $result['sub_category'];
+        }
+        if (isset($result['total'])) {
+            $summary->total = $result['total'];
+        }
         return $summary;
     }
 

@@ -55,6 +55,19 @@ class ExpenseDataControllerTest  extends ControllerTestCase {
         }
     }
 
+    public function testGetExpenseSummaryByCategoryAndDateReturnsCorrectTotal() {
+        $this->_testAction('/getExpenseSummaryForCategoryByDate/Shopping/2013-7', array('method' => 'get'));
+        $response = $this->result;
+        debug($response);
+        $expenseSummaryByCategory = json_decode($response);
+        foreach($expenseSummaryByCategory as $entry) {
+            if ($entry->subCategory == 'Clothes') {
+                $this->getExpensesShouldPass('33.00', $entry->total );
+            }
+        }
+
+    }
+
     private function getExpenseShouldFail($response)
     {
         $this->assertContains('Error', $response);

@@ -53,4 +53,26 @@ class ExpenseService {
         }
         return $expenseSummary;
     }
+    public function getExpenseSummaryForCategoryByDate($category, $fromDate, $toDate) {
+        $conditions = array(
+            'conditions' => array( 'date BETWEEN ? AND ?' => array($fromDate,$toDate), 'category' => $category),
+            'fields' => array('yearAndMonth', 'sub_category', 'total'), //array of field names
+            'order' => array('yearAndMonth'), //string or array defining order
+            'group' => array('yearAndMonth', 'sub_category'), //fields to GROUP BY
+        );
+        $virtualFields = array(
+            'yearAndMonth' => "CONCAT(year(date) , '-', month(date))",
+            'total' => 'SUM(amount)'
+        );
+        $resultSet = $this->summaryDTO->findUsingConditionsAndVirtualFields($conditions, $virtualFields);
+        //print_r($resultSet);
+        $expenseSummary = array();
+        if (count($resultSet) > 0) {
+            foreach($resultSet as $result) {
+                $summary = $this->summaryDTO->createStdObjectFromResult($result['Expense']);
+                array_push($expenseSummary, $summary);
+            }
+        }
+        return $expenseSummary;
+    }
 }
