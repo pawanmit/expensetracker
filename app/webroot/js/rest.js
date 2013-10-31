@@ -44,3 +44,25 @@ function getExpensesByCategoryAndDate(category, yyyymm) {
     });
     return returndata;
 }
+
+function getExpenseSummaryForCategoryByDate(category, yyyymm) {
+    var data = {
+    }
+    var returndata = {}
+
+    jQuery.ajax({
+        async: false,
+        type: 'GET',
+        cache: false,
+        dataType: 'json',
+        url: baseUrl + '/getExpenseSummaryForCategoryByDate/'+ category  + '/' + yyyymm ,
+        data: data,
+        success: function(data){
+            returndata = data;
+        },
+        error: function(data){
+            returndata = "error";
+        }
+    });
+    return returndata;
+}

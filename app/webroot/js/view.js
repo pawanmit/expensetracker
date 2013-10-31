@@ -20,22 +20,22 @@ function initLoadExpenseByCategoryAndDate() {
         var numSubCats = jQuery("#"+topCatID+" > div").size();
         //alert(topCatID + ":" + numSubCats);
         if (numSubCats == 0) {
-            loadExpenseByCategoryAndDate($categoryElement)
+            loadExpenseSummaryForCategoryByDate($categoryElement)
         } else {
             jQuery("#"+topCatID+" > div").toggle('show');
         }
     });
 }
-function loadExpenseByCategoryAndDate($categoryElement) {
+function loadExpenseSummaryForCategoryByDate($categoryElement) {
     var category = $categoryElement.parent().children(".category").text();
     var yyyymm = $categoryElement.parent().children(".date").text();
-    var expenses = getExpensesByCategoryAndDate(category, yyyymm);
+    var expenses = getExpenseSummaryForCategoryByDate(category, yyyymm);
     jQuery.each(expenses, function(i, item) {
         console.log(item);
         var subCatDiv = yyyymm + '-' +  category + '-' + item.subCategory + '-' + i;
         $categoryElement.parent().append('<div id="' + subCatDiv + '"/>');
         jQuery("#"+subCatDiv).append('<span class="subcat">' + item.subCategory + '</span>');
-        jQuery("#"+subCatDiv).append('<span class="subcatTotal">' + item.amount + '</span>');
+        jQuery("#"+subCatDiv).append('<span class="subcatTotal">' + item.total + '</span>');
     });
 }
 
