@@ -153,18 +153,15 @@
                     echo '<li class="month-li"><a href="' . $yearAndMonth . '">' . $monthYear . '</a></li>';
                 }
                 ?>
-                <li class="month-li" id="2013-05"><a href="#">May, 2013</a></li>
-                <li class="month-li" id="2013-06"><a href="#">Jun, 2013</a></li>
-                <li class="month-li" id="2013-07"><a href="#">Jul, 2013</a></li>
-                <li class="month-li" id="2013-08"><a href="#">Aug, 2013</a></li>
-                <li class="month-li" id="2013-09"><a href="#">Sep, 2013</a></li>
-                <li class="month-li" id="2013-10"><a href="#">Oct, 2013</a></li>
-                <li class="month-li" id="2013-11"><a href="#">Nov, 2013</a></li>
             </ul>
         </div>
         <div id="content">
             <div id="expense-list">
-                <h4 class="expense-summary-desc">Expense Summary for Jun, 2013</h4>
+                <?php
+                    $currentMonthYear = DateTime::createFromFormat('Y-n-d', $currentYearAndMonth . '-15')->format('M, Y');
+                ?>
+
+                <h4 class="expense-summary-desc">Expense Summary for <?php echo $currentMonthYear ?> </h4>
                 <table id="expense-list-table">
                     <thead class="expense-list-header">
                     <tr>
