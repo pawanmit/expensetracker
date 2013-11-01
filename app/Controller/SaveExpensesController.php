@@ -11,7 +11,12 @@ class SaveExpensesController extends AppController {
         $file = '../Test/Client/daily_expenses.csv';
         $expenseObjects = $this->getFileContents($file);
         foreach($expenseObjects as $expense) {
-            $expenseId = $this->saveExpense($expense);
+            try {
+                $this->saveExpense($expense);
+            } catch (Exception $e) {
+                throw new InternalErrorException("Error saving expense: " .  $expense->date  . ", " . $expense->category  . ", " . $expense->subCategory  . ", "
+                                                . $expense->vendor  . ", "  . $expense->description . ", "  . $expense->amount .  " - " . $e->getMessage());
+            }
         }
     }
 
@@ -42,7 +47,7 @@ class SaveExpensesController extends AppController {
         $expenseDTO->updateExpenseDTOFromStdObject($expense);
         $expenseId = $expenseDTO->saveOrUpdate();
         //$this->Expense->create(false);
-        print_r('Expense saved with id ' . $expenseId . "<BR>");
+        //print_r('Expense saved with id ' . $expenseId . "<BR>");
     }
 
     private function getFileContents($file) {
