@@ -11,6 +11,7 @@ class ExpenseService {
     function  __construct() {
         $this->expenseDTO = new ExpenseDTO();
         $this->summaryDTO = new SummaryDTO();
+        $this->expenseModel = ClassRegistry::init('Expense');
     }
 
     public function getExpensesByYear($year) {
@@ -74,5 +75,14 @@ class ExpenseService {
             }
         }
         return $expenseSummary;
+    }
+
+    public function getDistinctYearsAndMonths() {
+        $results = $this->expenseModel->query("SELECT DISTINCT( CONCAT(YEAR(date) , '-', MONTH(date)) ) AS yearMonth FROM expense ORDER BY yearMonth DESC;");
+        $yearAndMonths = array();
+        foreach($results as $yearAndMonth) {
+            array_push($yearAndMonths, $yearAndMonth[0]['yearMonth']);
+        }
+        return $yearAndMonths;
     }
 }

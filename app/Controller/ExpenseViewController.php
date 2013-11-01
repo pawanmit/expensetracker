@@ -10,11 +10,28 @@ class ExpenseViewController extends AppController {
         $this->expenseService = new ExpenseService();
     }
 
-    public function summary() {
+    public function index() {
         //get max mm-yyyy
         //redirect to /ExpenseTracker/summary/mm-yyyy
-        $expeneses = $this->expenseService->getDistinctYearsAndMonths();
+        $yearAndMonths = $this->expenseService->getDistinctYearsAndMonths();
+        //print_r($yearAndMonths);
+        $latestYearAndMonth = $yearAndMonths[0];
+        //$latestYearAndMonth = null;
+        if ( !isset($latestYearAndMonth) ) {
+            throw new InternalErrorException();
+        }
+        $this->redirect('/summary/' . $latestYearAndMonth);
+        //$this->view = '/ExpenseTracker/summary';
+        //$this->layout= false;
+    }
+
+    public function getExpenseSummaryForYearAndMonth() {
+        $yearAndMonth = $this->request->params['yearAndMonth'];
+        $yearAndMonths = $this->expenseService->getDistinctYearsAndMonths();
+        //print_r($yearAndMonths);
+        $this->set('yearAndMonths', $yearAndMonths);
         $this->view = '/ExpenseTracker/summary';
         $this->layout= false;
     }
+
 }

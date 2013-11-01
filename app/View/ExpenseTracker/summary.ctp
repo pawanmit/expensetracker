@@ -146,6 +146,13 @@
     <div id="main">
         <div id="sidebar-left">
             <ul class="months-list">
+                <?php
+                foreach ($yearAndMonths as $yearAndMonth) {
+                    //Adding 15 as date, otherwise createFromFormat returns incorrect outout
+                    $monthYear = DateTime::createFromFormat('Y-n-d', $yearAndMonth . '-15')->format('M, Y');
+                    echo '<li class="month-li"><a href="' . $yearAndMonth . '">' . $monthYear . '</a></li>';
+                }
+                ?>
                 <li class="month-li" id="2013-05"><a href="#">May, 2013</a></li>
                 <li class="month-li" id="2013-06"><a href="#">Jun, 2013</a></li>
                 <li class="month-li" id="2013-07"><a href="#">Jul, 2013</a></li>
