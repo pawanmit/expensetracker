@@ -28,11 +28,19 @@ class ExpenseViewController extends AppController {
     public function getExpenseSummaryForYearAndMonth() {
         $currentYearAndMonth = $this->request->params['yearAndMonth'];
         $yearAndMonths = $this->expenseService->getDistinctYearsAndMonths();
-        //print_r($yearAndMonths);
+        $expenseSummary = $this->getCategoryAndTotalByDate($currentYearAndMonth);
         $this->set('yearAndMonths', $yearAndMonths);
         $this->set('currentYearAndMonth', $currentYearAndMonth);
+        $this->set('expenseSummary', $expenseSummary);
         $this->view = '/ExpenseTracker/summary';
         $this->layout= false;
     }
 
+    private function getCategoryAndTotalByDate($yearMonth) {
+        $fromDate = $yearMonth . '-01';
+        $toDate = $yearMonth . '-31';
+        $expenseSummary = $this->expenseService->getCategoryAndTotalByDate($fromDate, $toDate);
+        //print_r($expenseSummary);
+        return $expenseSummary;
+    }
 }

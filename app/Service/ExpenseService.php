@@ -54,6 +54,7 @@ class ExpenseService {
         }
         return $expenseSummary;
     }
+
     public function getExpenseSummaryForCategoryByDate($category, $fromDate, $toDate) {
         $conditions = array(
             'conditions' => array( 'date BETWEEN ? AND ?' => array($fromDate,$toDate), 'category' => $category),
@@ -73,6 +74,29 @@ class ExpenseService {
                 $summary = $this->summaryDTO->createStdObjectFromResult($result['Expense']);
                 array_push($expenseSummary, $summary);
             }
+        }
+        return $expenseSummary;
+    }
+
+    public function getCategoryAndTotalByDate($fromDate, $toDate) {
+        $conditions = array(
+            'conditions' => array( 'date BETWEEN ? AND ?' => array($fromDate,$toDate)),
+            'fields' => array('yearAndMonth', 'category', 'total'), //array of field names
+            'order' => array('category'), //string or array defining order
+            'group' => array('yearAndMonth', 'category'), //fields to GROUP BY
+        );
+        $virtualFields = array(
+            'yearAndMonth' => "CONCAT(year(date) , '-', month(date))",
+            'total' => 'SUM(amount)'
+        );
+        $this->expenseModel->virtualFields = $virtualFields;
+        $result = $this->expenseModel->find('all', $conditions);
+        $expenseSummary = array();
+        foreach ($result as $row) {
+            $expense = new StdClass();
+            $expense->category = $row['Expense']['category'];
+            $expense->total = $row['Expense']['total'];
+            array_push($expenseSummary, $expense);
         }
         return $expenseSummary;
     }

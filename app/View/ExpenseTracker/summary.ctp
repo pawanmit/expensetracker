@@ -97,7 +97,7 @@
             margin-left:20px;
         }
 
-        .odd {
+        .even {
             background-color:#f2f9f6;
         }
 
@@ -170,42 +170,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="expense odd">
-                        <td class="category">Transportation</td>
-                        <td class="total">85.00</td>
-                    </tr>
-                    <tr class="expense even">
-                        <td class="category">Utilities</td>
-                        <td class="total">285.00</td>
-                    </tr>
-                    <tr class="expense odd">
-                        <td class="category">Food</td>
-                        <td class="total">937.00</td>
-                    </tr>
-                    <tr class="expense even">
-                        <td class="category">Entertainlent</td>
-                        <td class="total">404.00</td>
-                    </tr>
-                    <tr class="expense odd">
-                        <td class="category">Miscellaneous</td>
-                        <td class="total">44.00</td>
-                    </tr>
-                    <tr class="expense even">
-                        <td class="category">Utilities</td>
-                        <td class="total">285.00</td>
-                    </tr>
-                    <tr class="expense odd">
-                        <td class="category">Home</td>
-                        <td class="total">757.31</td>
-                    </tr>
-                    <tr class="expense even">
-                        <td class="category">Timmy</td>
-                        <td class="total">100.45</td>
-                    </tr>
-                    <tr class="expense odd">
-                        <td class="category">Shopping</td>
-                        <td class="total">636.05</td>
-                    </tr>
+                    <?php
+                        $count = 0;
+                        foreach($expenseSummary as $expense) {
+                            $rowClass = ($count++ % 2) == 0 ? 'even' : 'odd';
+                            echo '<tr class="expense ' . $rowClass . '">';
+                            echo '<td class="category">' . $expense->category . '</td>';
+                            echo '<td class="total">' . $expense->total . '</td>';
+                            echo '</tr>';
+                        }
+                    ?>
                     </tbody>
                 </table>
             </div>
