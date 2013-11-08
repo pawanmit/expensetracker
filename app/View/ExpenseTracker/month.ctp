@@ -148,26 +148,53 @@
     </div>
     <div id="main">
         <div id="sidebar-left">
-
+            <ul class="months-list">
+                <?php
+                foreach ($yearAndMonths as $yearAndMonth) {
+                    //Adding 15 as date, otherwise createFromFormat returns incorrect outout
+                    $monthYear = DateTime::createFromFormat('Y-n-d', $yearAndMonth . '-15')->format('M, Y');
+                    echo '<li class="month-li"><a href="' . $yearAndMonth . '">' . $monthYear . '</a></li>';
+                }
+                ?>
+            </ul>
         </div>
         <div id="content">
-            <div id="barchart"></div>
+            <div id="expense-list">
+                <?php
+                    $currentMonthYear = DateTime::createFromFormat('Y-n-d', $currentYearAndMonth . '-15')->format('M, Y');
+                ?>
+
+                <h4 class="expense-summary-desc">Expense Summary for <?php echo $currentMonthYear ?> </h4>
+                <table id="expense-list-table">
+                    <thead class="expense-list-header">
+                    <tr>
+                        <th class="category">Category</th>
+                        <th class="total">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        $count = 0;
+                        $total = 0;
+                    foreach($expenseSummary as $expense) {
+                            $rowClass = ($count++ % 2) == 0 ? 'even' : 'odd';
+                            echo '<tr class="expense ' . $rowClass . '">';
+                            echo '<td class="category">' . $expense->category . '</td>';
+                            echo '<td class="total">' . $expense->total . '</td>';
+                            echo '</tr>';
+                            $total += $expense->total;
+                        }
+                    echo '<tr class="expenseTotal">';
+                    echo '<td class="category">' . 'Total spent in  '  . $currentMonthYear .   '</td>';
+                    echo '<td class="total">' . $total . '</td>';
+                    echo '</tr>';
+                    ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div id="sidebar-right"></div>
-        <div id="footer">test
-        <script type="text/javascript" src="js/html5-canvas-bar-graph.js"></script>
-        <script>
-            (function () {
-                var ctx = createCanvas("barchart");
-                var graph = new BarGraph(ctx);
-                graph.maxValue = 1000;
-                graph.margin = 5;
-                graph.colors = ["#0263AE", "#A858A3", "#FBAE2C", "#DF4C27"];
-                graph.xAxisLabelArr = ["Painting", "Sculpture", "Digital", "Studio"];
-                graph.update([950, 650, 700, 885]);
-            }());
-        </script>
-        </div>
+        <div id="footer">test</div>
     </div>
 </div>
 </body>

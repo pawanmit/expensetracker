@@ -41,13 +41,15 @@
 
     Router::connect('/getExpenseSummaryForCategoryByDate/:category/:yyyymm', array('controller' => 'expenseData', 'action' => 'getExpenseSummaryForCategoryByDate', '[method]' => 'GET'));
 
-    Router::connect('/summary', array('controller' => 'expenseView', 'action' => 'index', '[method]' => 'GET'));
+    Router::connect('/details', array('controller' => 'expenseView', 'action' => 'index', '[method]' => 'GET'));
+    Router::connect('/summary', array('controller' => 'expenseView', 'action' => 'summary', '[method]' => 'GET'));
 
     Router::connect('/getSummary', array('controller' => 'expenseData', 'action' => 'getExpenseSummary', '[method]' => 'GET'));
 
 
     /* New Routers */
-    Router::connect('/summary/:yearAndMonth', array('controller' => 'expenseView', 'action' => 'getExpenseSummaryForYearAndMonth', '[method]' => 'GET'));
+    Router::connect('/details/:yearAndMonth', array('controller' => 'expenseView', 'action' => 'getExpenseSummaryForYearAndMonth', '[method]' => 'GET'));
+    Router::connect('/details/category/:yearAndMonth', array('controller' => 'expenseView', 'action' => 'getExpenseSummaryForCategory', '[method]' => 'GET'));
 
 
 /**

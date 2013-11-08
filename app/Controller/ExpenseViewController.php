@@ -15,12 +15,13 @@ class ExpenseViewController extends AppController {
         //redirect to /ExpenseTracker/summary/mm-yyyy
         $yearAndMonths = $this->expenseService->getDistinctYearsAndMonths();
         //print_r($yearAndMonths);
-        $latestYearAndMonth = $yearAndMonths[0];
+
         //$latestYearAndMonth = null;
-        if ( !isset($latestYearAndMonth) ) {
+        if ( !isset($yearAndMonths[0]) ) {
             throw new InternalErrorException();
         }
-        $this->redirect('/summary/' . $latestYearAndMonth);
+        $latestYearAndMonth = $yearAndMonths[0];
+        $this->redirect('/details/' . $latestYearAndMonth);
         //$this->view = '/ExpenseTracker/summary';
         //$this->layout= false;
     }
@@ -32,8 +33,14 @@ class ExpenseViewController extends AppController {
         $this->set('yearAndMonths', $yearAndMonths);
         $this->set('currentYearAndMonth', $currentYearAndMonth);
         $this->set('expenseSummary', $expenseSummary);
+        $this->view = '/ExpenseTracker/month';
+        $this->layout= false;
+    }
+
+    public function summary() {
         $this->view = '/ExpenseTracker/summary';
         $this->layout= false;
+
     }
 
     private function getCategoryAndTotalByDate($yearMonth) {
@@ -42,5 +49,9 @@ class ExpenseViewController extends AppController {
         $expenseSummary = $this->expenseService->getCategoryAndTotalByDate($fromDate, $toDate);
         //print_r($expenseSummary);
         return $expenseSummary;
+    }
+
+    public function getExpenseSummaryForCategory() {
+        $category = $this->request->params['category'];
     }
 }

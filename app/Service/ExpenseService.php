@@ -78,6 +78,15 @@ class ExpenseService {
         return $expenseSummary;
     }
 
+
+    public function getMonthsAndTotalByCategory($category, $fromDate, $toDate) {
+
+    }
+    /**
+     * @param $fromDate
+     * @param $toDate
+     * @return array of category name and total spent on that category between $fromDate and $toDate
+     */
     public function getCategoryAndTotalByDate($fromDate, $toDate) {
         $conditions = array(
             'conditions' => array( 'date BETWEEN ? AND ?' => array($fromDate,$toDate)),

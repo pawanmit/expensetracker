@@ -1,0 +1,50 @@
+[
+    {
+        "date": "6/1/2013",
+        "category": "Health",
+        "subCategory": "Preventive Care",
+        "vendor": "Walid",
+        "description": "",
+        "amount": "$105.00"
+    },
+    {
+        "date": "6/1/2013",
+        "category": "Food",
+        "subCategory": "Groceries",
+        "vendor": "Farmers Market",
+        "description": "",
+        "amount": "$40.00"
+    },
+    {
+        "date": "6/1/2013",
+        "category": "Food",
+        "subCategory": "Groceries",
+        "vendor": "Trader Joes",
+        "description": "",
+        "amount": "$48.00"
+    },
+    {
+        "date": "6/1/2013",
+        "category": "Home",
+        "subCategory": "Supplies",
+        "vendor": "Costco",
+        "description": "",
+        "amount": "$97.00"
+    },
+    {
+        "date": "6/1/2013",
+        "category": "Food",
+        "subCategory": "Groceries",
+        "vendor": "Kamal Spices",
+        "description": "",
+        "amount": "$27.00"
+    },
+    {
+        "date": "6/1/2013",
+        "category": "Entertainment",
+        "subCategory": "Movies",
+        "vendor": "Regal",
+        "description": "",
+        "amount": "$17.00"
+    }
+]
